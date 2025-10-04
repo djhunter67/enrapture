@@ -1,7 +1,9 @@
-pub fn add(left: u64, right: u64) -> u64 {
+#[must_use]
+pub const fn add(left: u64, right: u64) -> u64 {
     left + right
 }
 
+#[must_use]
 pub fn hello() -> String {
     "Hello, world!".to_string()
 }
