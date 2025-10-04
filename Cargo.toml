@@ -3,4 +3,34 @@ name = "enrapture"
 version = "0.1.0"
 edition = "2024"
 
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+path = "src/main.rs"
+name = "enrapture"
+
+[lints.clippy]
+pedantic = { level = "deny", priority = 1 }
+wildcard_imports = "deny"
+must_use_candidate = "warn"
+enum_glob_use = "deny"
+nursery = { level = "deny", priority = 1 }
+unwrap_used = "deny"
+
+[profile.release]
+overflow-checks = false
+lto = "thin"
+codegen-units = 1
+panic = "abort"
+incremental = false
+opt-level = "z"
+strip = "none"
+rpath = false
+debug-assertions = false
+
+[profile.dev]
+codegen-units = 128
+
+
 [dependencies]
