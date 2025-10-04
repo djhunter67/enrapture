@@ -1,6 +1,5 @@
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -13,7 +12,7 @@ CREATE TABLE IF NOT EXISTS movies (
     porster_path TEXT,
     youtube_id TEXT,
     description TEXT,
-    release_year INT CHECK (release_year >= 1888),
+    release_year INTEGER CHECK (release_year >= 1888),
     admin_review TEXT,
     genre_id INTEGER REFERENCES genres(id) ON DELETE SET NULL,
     sentiment_word REFERENCES sentiment(id) ON DELETE SET NULL,
@@ -64,6 +63,4 @@ CREATE TABLE IF NOT EXISTS actors (
     birth_date DATE,
     bio TEXT
 );
-
-
 
