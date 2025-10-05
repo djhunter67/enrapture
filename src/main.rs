@@ -2,17 +2,29 @@ use enrapture::{
     hello,
     models::sqlite::{DATABASE_NAME, create_user},
 };
-use tracing::info;
-use tracing_subscriber::fmt;
+use tracing::{Level, info, level_filters::LevelFilter};
+use tracing_appender::rolling::{RollingFileAppender, Rotation};
+use tracing_subscriber::{Layer, fmt, layer::SubscriberExt};
 
 fn main() {
-    fmt()
-        .compact()
-        .with_file(true)
-        .with_line_number(true)
-        .with_thread_ids(true)
-        .with_target(true)
-        .finish();
+    let rolling_log = RollingFileAppender::new(Rotation::NEVER, "./", "enrapped");
+
+    let (non_blocking, _) = tracing_appender::non_blocking(rolling_log);
+
+    let layer_1 = fmt::Layer::default()
+        .with_writer(non_blocking)
+        .with_filter(LevelFilter::from(Level::DEBUG));
+
+    let (non_blocking, _) = tracing_appender::non_blocking(std::io::stdout());
+
+    let layer_2 = fmt::Layer::default()
+        .with_writer(non_blocking)
+        .with_filter(LevelFilter::from(Level::TRACE));
+
+    let subscriber = tracing_subscriber::registry().with(layer_1).with(layer_2);
+
+    tracing::subscriber::set_global_default(subscriber).expect("Failed to set subscriber");
+
     tracing::info!("Hello, world; from tracing");
 
     println!("{}", hello());
