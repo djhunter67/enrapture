@@ -2,7 +2,9 @@ use argon2::{
     Argon2,
     password_hash::{PasswordHash, PasswordHasher, PasswordVerifier, SaltString, rand_core::OsRng},
 };
+use tracing::{debug, instrument};
 
+#[instrument]
 /// Hash the provided clear password using Argon2 algorithm.
 /// # Arguments
 ///   * `clear_password` - The clear password to hash.
@@ -20,7 +22,7 @@ pub fn hash_pw(clear_password: &str) -> String {
         .expect("Error hashing password")
         .to_string();
 
-    println!("hashed password");
+    debug!("hashed password");
 
     let is_correct = argon2
         .verify_password(
@@ -29,11 +31,12 @@ pub fn hash_pw(clear_password: &str) -> String {
         )
         .is_ok();
 
-    println!("password is correct? {is_correct}");
+    debug!("password is correct? {is_correct}");
 
     pw_hash
 }
 
+#[instrument(name = "password checker", target = "enrapture", level = "info")]
 /// Check if the provided clear password matches the stored hash for the given email.
 /// Returns true if the password is correct, false otherwise.
 /// # Arguments

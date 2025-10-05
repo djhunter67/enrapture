@@ -2,8 +2,19 @@ use enrapture::{
     hello,
     models::sqlite::{DATABASE_NAME, create_user},
 };
+use tracing::info;
+use tracing_subscriber::fmt;
 
 fn main() {
+    fmt()
+        .compact()
+        .with_file(true)
+        .with_line_number(true)
+        .with_thread_ids(true)
+        .with_target(true)
+        .finish();
+    tracing::info!("Hello, world; from tracing");
+
     println!("{}", hello());
 
     // the sqlite schema is at src/models/schema.sql
@@ -14,7 +25,7 @@ fn main() {
     // close the connection
     drop(conn);
 
-    println!("Database initialized in memory.");
+    info!("Database initialized in memory.");
 
     for _ in 0..5 {
         let random_email_number = rand::random::<u8>();

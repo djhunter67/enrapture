@@ -1,3 +1,5 @@
+use tracing::instrument;
+
 pub mod models;
 pub mod security;
 
@@ -7,6 +9,7 @@ pub const fn add(left: u64, right: u64) -> u64 {
 }
 
 #[must_use]
+#[instrument]
 pub fn hello() -> String {
     "Hello, world!".to_string()
 }

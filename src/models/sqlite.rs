@@ -1,7 +1,10 @@
+use tracing::{info, instrument};
+
 use crate::security::hashing::hash_pw;
 
 pub const DATABASE_NAME: &str = "enrapture.db";
 
+#[instrument]
 /// Create a new user with the given email and clear password.
 /// The password is hashed using argon2 before being stored in the database.
 /// # Arguments
@@ -23,5 +26,5 @@ pub fn create_user(email: &str, clear_password: &str) {
     .expect("Error inserting user");
     drop(conn);
 
-    println!("\n{email} created successfully\n");
+    info!("\n{email} created successfully\n");
 }
