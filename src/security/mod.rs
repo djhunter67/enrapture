@@ -50,32 +50,33 @@ pub fn hash_pw(clear_password: &str) -> String {
 ///   * `Ok(true)` - If the password is correct.
 /// # Errors
 ///   * `Err(rusqlite::Error)` - If there is an error querying the database.
-pub fn is_pw_correct(email: &str, clear_password: &str) -> Result<bool, rusqlite::Error> {
-    let conn = rusqlite::Connection::open("users.db").expect("Error opening database");
+pub fn is_pw_correct(email: &str, clear_password: &str) -> bool {
+    // let conn = rusqlite::Connection::open("users.db").expect("Error opening database");
 
-    let mut stmt = conn
-        .prepare("SELECT password FROM users WHERE email = ?1")
-        .expect("Error preparing statement");
-    let mut rows = stmt
-        .query(rusqlite::params![email])
-        .expect("Error querying database");
+    // let mut stmt = conn
+    //     .prepare("SELECT password FROM users WHERE email = ?1")
+    //     .expect("Error preparing statement");
+    // let mut rows = stmt
+    //     .query(rusqlite::params![email])
+    //     .expect("Error querying database");
 
-    rows.next().expect("Error getting next row").map_or_else(
-        || Ok(false),
-        |row| {
-            let stored_hash: String = row.get(0).expect("Error getting password from row");
+    // rows.next().expect("Error getting next row").map_or_else(
+    //     || Ok(false),
+    //     |row| {
+    //         let stored_hash: String = row.get(0).expect("Error getting password from row");
 
-            let argon2 = Argon2::default();
+    //         let argon2 = Argon2::default();
 
-            let is_correct = argon2
-                .verify_password(
-                    clear_password.as_bytes(),
-                    &PasswordHash::new(&stored_hash).expect("Error parsing password hash"),
-                )
-                .is_ok();
-            Ok(is_correct)
-        },
-    )
+    //         let is_correct = argon2
+    //             .verify_password(
+    //                 clear_password.as_bytes(),
+    //                 &PasswordHash::new(&stored_hash).expect("Error parsing password hash"),
+    //             )
+    //             .is_ok();
+    //         Ok(is_correct)
+    //     },
+    // )
+    false
 }
 
 #[cfg(test)]
