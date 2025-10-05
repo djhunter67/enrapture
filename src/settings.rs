@@ -8,10 +8,8 @@ use tracing::{error, info, instrument};
 pub struct Settings {
     pub application: Application,
     pub debug: bool,
-    pub mongo: Mongo,
     pub sqlite: Sqlite,
     pub redis: Redis,
-    pub postgres: Postgres,
     pub secret: Secret,
     pub frontend_url: String,
 }
@@ -34,40 +32,12 @@ pub struct Redis {
     pub pool_expire_seconds: u32,
 }
 
-/// Mongo setting for the entire application
-#[derive(Deserialize, Clone, Debug)]
-pub struct Mongo {
-    pub username: String,
-    pub password: String,
-    pub uri: String,
-    pub host: String,
-    pub port: u16,
-    pub db: String,
-    pub collection: String,
-    pub require_auth: bool,
-    pub pool_size: u8,
-    pub connection_timeout: u8,
-}
-
 #[derive(Deserialize, Clone, Debug)]
 pub struct Sqlite {
     pub path: String,
     pub schema: String,
     pub pool_size: u32,
     pub connection_timeout: u64,
-}
-
-#[derive(Deserialize, Clone)]
-pub struct Postgres {
-    pub username: String,
-    pub password: String,
-    pub port: u16,
-    pub host: String,
-    pub db: String,
-    pub schema: String,
-    pub app_name: String,
-    pub connection_timeout: u8,
-    pub working_memory: String,
 }
 
 /// Application's specific settings to expose `port`,

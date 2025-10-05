@@ -1,7 +1,7 @@
 use crate::endpoints::{health, index, templates};
 use crate::settings::Settings;
 use actix_web::web::{self, Data};
-use actix_web::{http::KeepAlive, middleware, App, HttpServer};
+use actix_web::{App, HttpServer, http::KeepAlive, middleware};
 use r2d2_redis::RedisConnectionManager;
 use r2d2_sqlite::SqliteConnectionManager;
 use std::net;
@@ -135,28 +135,6 @@ impl Application {
 }
 
 /*
-/// # Result
-///  - `Ok(Database)` if the connection pool was successfully created
-/// # Errors
-///  - `mongodb::error::Error` if the connection pool could not be created
-/// # Panics
-///  - If the connection pool could not be created
-#[instrument(name = "Get Connection Pool", level = "info", target = "demo_web_app")]
-async fn get_connection_pool(settings: &settings::Mongo) -> mongodb::Database {
-    info!("Get mongo connection pool");
-    let mut client_options = settings.mongo_options().await;
-    client_options.app_name = Some(settings.clone().db);
-
-    let client = match mongodb::Client::with_options(client_options) {
-        Ok(client) => client,
-        Err(err) => {
-            error!("Failed to connect to MongoDB: {err}\nExiting...");
-            panic!("Failed to connect to MongoDB");
-        }
-    };
-    client.database(&settings.db)
-}
-
 /// # Result
 /// - `Ok(())` Created the sqlite3 database file if it did not exist
 /// # Errors
