@@ -1,14 +1,14 @@
-# Description
-This project is similar to `Plex` and `Jellyfin`.  A connected file location of movies will be served.  `AI` will be used to create the movie metadata.  This will be a movie streaming application.
+# Portfolio Site V3
 
-# Technologies
-Rust
-HTMX
-HTML
-SCSS
-Javascript (as needed)
+## Frontend
+The frontend will consist of `HTML`, `HTMX`, and `SCSS`.  `Javascript` will be used as a last resort and if needed,  it will be `Typescript`.  The development platform will be `Firefox`, my IDE will be `emacs`, and the template engine will be a `Jinja2` clone called `Askama`.
 
-# Security
-HTTP-only cookies
-secure token handling
-client-server communication over https
+## Backend
+The backend will be written in `Rust`.  The `Actix-web` is the web server.  This is the first web application I will be making from a repostitory template.  The template gives options to use any of four database singularly or in tandem. The databases are `Redis`, `Sqlite`, `Mongodb`, and `Postgresq1el`.
+
+## Design
+
+The following sketch will be the template for the design of this third iteration of my portfolio site:
+
+
+![Hand sketched design](./static/imgs/design_sketch.png)

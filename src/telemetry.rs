@@ -1,4 +1,4 @@
-use tracing_subscriber::{EnvFilter, Registry, layer::SubscriberExt};
+use tracing_subscriber::{layer::SubscriberExt, EnvFilter, Registry};
 
 #[must_use]
 /// # Result

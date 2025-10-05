@@ -1,60 +1,36 @@
-use enrapture::{
-    hello,
-    models::sqlite::{DATABASE_NAME, create_user},
-};
-use tracing::{Level, info, level_filters::LevelFilter};
-use tracing_appender::rolling::{RollingFileAppender, Rotation};
-use tracing_subscriber::{Layer, fmt, layer::SubscriberExt};
+use std::io;
+use tracing::{error, info, warn};
+use website_template::{settings, startup::Application, telemetry};
 
-fn main() {
-    let rolling_log = RollingFileAppender::new(Rotation::NEVER, "./", "enrapped");
+#[actix_web::main]
+async fn main() -> io::Result<()> {
+    // This is a macro that allows for multiple loggers to be used at once
 
-    let (non_blocking, _) = tracing_appender::non_blocking(rolling_log);
+    dotenv::dotenv().ok();
 
-    let layer_1 = fmt::Layer::default()
-        .with_writer(non_blocking)
-        .with_filter(LevelFilter::from(Level::DEBUG));
+    let mut settings = match settings::get() {
+        Ok(settings) => settings,
+        Err(err) => {
+            println!("Failed to load settings: {err}");
+            panic!("Failed to load settings");
+        }
+    };
 
-    let (non_blocking, _) = tracing_appender::non_blocking(std::io::stdout());
+    let subscriber = telemetry::get_subcriber(settings.clone().debug);
+    telemetry::init_subscriber(subscriber);
 
-    let layer_2 = fmt::Layer::default()
-        .with_writer(non_blocking)
-        .with_filter(LevelFilter::from(Level::TRACE));
+    info!("Building the application");
+    let application = match Application::build(&mut settings).await {
+        Ok(app) => app,
+        Err(err) => {
+            error!("Failed to build application: {err}");
+            panic!("Failed to build application");
+        }
+    };
 
-    let subscriber = tracing_subscriber::registry().with(layer_1).with(layer_2);
+    info!("Listening on port: {}", application.port());
+    application.run_until_stopped().await?;
+    warn!("Shutting down");
 
-    tracing::subscriber::set_global_default(subscriber).expect("Failed to set subscriber");
-
-    tracing::info!("Hello, world; from tracing");
-
-    println!("{}", hello());
-
-    // the sqlite schema is at src/models/schema.sql
-    // use rusqlite to instantiate the database in memory
-    let conn = rusqlite::Connection::open(DATABASE_NAME).expect("Failed to open database");
-    conn.execute_batch(include_str!("models/schema.sql"))
-        .expect("Failed to create schema");
-    // close the connection
-    drop(conn);
-
-    info!("Database initialized in memory.");
-
-    for _ in 0..5 {
-        let random_email_number = rand::random::<u8>();
-
-        let email = format!("user_{random_email_number}");
-
-        // Create an arbitrary user
-        create_user(&format!("{email}@email.com"), "password123");
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_hello() {
-        assert_eq!(hello(), "Hello, world!");
-    }
+    Ok(())
 }
