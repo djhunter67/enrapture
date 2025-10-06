@@ -11,8 +11,9 @@ redis:
   pool_expire_seconds: 60
   
 sqlite:
-  path: "senzor.db"
+  path: "enrature.db"
   schema: "static/schema.sql"
   pool_size: 1
   connection_timeout: 1
+  
 

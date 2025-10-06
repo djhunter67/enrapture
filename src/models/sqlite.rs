@@ -38,12 +38,13 @@ impl SqliteData {
     }
 }
 
-#[must_use]
+#[must_use = "Establishes a sqlite database"]
 #[instrument(
     name = "Establishing a connection to the SQLite database",
     level = "info",
     skip(settings, manager)
 )]
+/// Initialize and return a connection to the ``SQLite`` database.
 /// # Returns
 ///   - Returns a `Pool` of `SqliteConnectionManager` to the sqlite db if successful
 ///
@@ -54,7 +55,8 @@ impl SqliteData {
 /// # Panics
 ///   - Panics if the pool cannot be created
 ///
-/// Initialize and return a connection to the ``SQLite`` database.
+/// # Errors
+///   - Returns `Error::NoConnection` if the connection cannot be established
 pub fn establish_connection(
     settings: &Settings,
     manager: Data<SqliteConnectionManager>,

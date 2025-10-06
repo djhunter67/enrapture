@@ -5,9 +5,7 @@ use actix_web::web::Data;
 use std::{sync::Arc, time::Duration};
 
 use r2d2::Pool;
-
 use r2d2_redis::RedisConnectionManager;
-
 use tracing::instrument;
 
 #[must_use]
@@ -26,7 +24,6 @@ use tracing::instrument;
 ///   - Panics if the pool cannot be created
 ///
 /// Initialize and return a connection to the ``Redis`` database.
-
 pub fn establish_connection(
     settings: &Settings,
     manager: Data<RedisConnectionManager>,
