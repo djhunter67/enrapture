@@ -32,7 +32,7 @@ $light-yellow: hsl(60, 100%, 90%);
     grid-template-rows:  0.75fr 2fr 2fr 2fr;
     align-content: end;
     min-height: 100vh;
-    background-color: $black;
+    background-color: teal;
 }
 
 @import "_index";

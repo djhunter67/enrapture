@@ -1,13 +1,12 @@
-use std::task::Poll;
+use std::{collections::HashMap, task::Poll};
 
 use actix_web::{
-    get,
+    Error, HttpRequest, HttpResponse, Responder, get,
     http::{
-        self,
+        self, StatusCode,
         header::{ContentEncoding, ContentType},
-        StatusCode,
     },
-    web, Error, HttpRequest, HttpResponse, Responder,
+    web,
 };
 use askama::Template;
 use futures::stream;
@@ -26,12 +25,20 @@ pub async fn index() -> HttpResponse {
     info!("Serving main page");
     let version: &str = env!("CARGO_PKG_VERSION");
 
+    let mut thumbnails = HashMap::new();
+
+    // temporarily hardcoding image urls
+    thumbnails.insert("title", "https://placekitten.com/200/300");
+    thumbnails.insert("img_url", "https://placekitten.com/250/350");
+    thumbnails.insert("alt", "A cute kitten");
+    thumbnails.insert("description", "A cute kitten");
+
     let var_name = IndexTemplate {
         title: "Home",
         content: vec!["friendly", "messages"],
         version,
-        linkedin: "https://www.linkedin.com/in/christerpher",
-        github: "https://github.com/djhunter67",
+        thumbnails: vec![thumbnails],
+        location: "Jacobson, MN",
         source_url: "https://christerpher.com",
     };
 
@@ -69,10 +76,10 @@ mod tests {
     use std::pin::pin;
 
     use actix_web::{
+        App,
         body::{self, MessageBody},
         test,
         web::{self, Bytes},
-        App,
     };
     use futures::future;
 

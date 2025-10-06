@@ -1,3 +1,50 @@
-{% extends "base.html" %} {% block title %} {{ title }} {{ version  }} {% endblock %} {% block head %} {% endblock %} {% block individual_page_contents %}
-<h1>Movie streamer</h1>
-{% call super() %} {% endblock %}
+{% extends "base.html" %}
+{% block title %}
+{{ title }} {{ version  }}
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block individual_page_contents %}
+<section id="side">
+  <aside id="side__section">
+    <div id="side__section__img">
+      <img class="headshot" alt="user headshot">
+    </div>
+    <div id="side__section__info">
+      <h3>Location</h3>
+      <p>{{ location }}</p>
+    </div>
+    <div id="side__section__movies">
+      <h2><a href="" target="_blank">MOVIES</a></h2>
+    </div>
+    <div id="side__section__television">
+      <h2><a href="" target="_blank">TELEVISION</a></h2>
+    </div>    
+  </aside>
+</section>
+<section id="top">
+  <button id="top__popular">
+    POPULAR
+  </button>
+  <button id="top__playlist">
+    PLAYLIST
+  </button>
+  <button id="top__favorites">
+    FAVORITES
+  </button>
+</section>
+<section id="body">
+  {% for paragraph in thumbnails %}
+  <div class="thumbnail">
+    <h3 class="thumbnail__text__title">{{ paragraph.title }}</h3>
+    <img class="thumbnail__img" src="{{ paragraph.img_url }}" alt="{{ paragraph.alt }}">
+    <div class="thumbnail__text">      
+      <p class="thumbnail__text__description">{{ paragraph.description }}</p>
+    </div>
+  </div>
+  {% endfor %}
+</section>
+{% call super() %}
+{% endblock %}

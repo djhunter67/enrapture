@@ -1,7 +1,7 @@
-use std::path::PathBuf;
+use std::{collections::HashMap, path::PathBuf};
 
 use actix_files::NamedFile;
-use actix_web::{get, HttpResponse, Responder};
+use actix_web::{HttpResponse, Responder, get};
 use askama::Template;
 use tracing::{error, info, instrument};
 
@@ -11,8 +11,8 @@ pub struct IndexTemplate<'a> {
     pub title: &'a str,
     pub content: Vec<&'a str>,
     pub version: &'a str,
-    pub github: &'a str,
-    pub linkedin: &'a str,
+    pub location: &'a str,
+    pub thumbnails: Vec<HashMap<&'a str, &'a str>>,
     pub source_url: &'a str,
 }
 

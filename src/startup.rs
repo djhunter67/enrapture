@@ -33,7 +33,7 @@ async fn run(
         App::new()
             .wrap(middleware::Logger::default())
             .wrap(middleware::Compress::default())
-            // .wrap(middleware::DefaultHeaders::new().add(("X-Version", env!("CARGO_PKG_VERSION")))) // Security
+            .wrap(middleware::DefaultHeaders::new().add(("X-Version", env!("CARGO_PKG_VERSION")))) // Security
             .app_data(db_redis.clone())
             .app_data(db_sqlite.clone())
             .service(templates::favicon)
@@ -55,7 +55,7 @@ async fn run(
     })
     .keep_alive(KeepAlive::Os) // Keep the connection alive; OS handled
     .disable_signals() // Disable the signals to allow the OS to handle the signals
-    .workers(2)
+    .workers(1)
     .shutdown_timeout(3)
     .listen(listener)?
     .run();
