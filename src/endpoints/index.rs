@@ -1,4 +1,4 @@
-use std::{collections::HashMap, task::Poll};
+use std::task::Poll;
 
 use actix_web::{
     Error, HttpRequest, HttpResponse, Responder, get,
@@ -11,6 +11,8 @@ use actix_web::{
 use askama::Template;
 use futures::stream;
 use tracing::{info, instrument};
+
+use crate::endpoints::templates::Thumbnails;
 
 use super::templates::IndexTemplate;
 
@@ -25,19 +27,28 @@ pub async fn index() -> HttpResponse {
     info!("Serving main page");
     let version: &str = env!("CARGO_PKG_VERSION");
 
-    let mut thumbnails = HashMap::new();
-
-    // temporarily hardcoding image urls
-    thumbnails.insert("title", "https://placekitten.com/200/300");
-    thumbnails.insert("img_url", "https://placekitten.com/250/350");
-    thumbnails.insert("alt", "A cute kitten");
-    thumbnails.insert("description", "A cute kitten");
+    // temporary hardcoded thumbnail
+    // TODO: replace with dynamic content from database
+    let thumbnails = vec![
+        Thumbnails {
+            title: String::from("A cute kitten"),
+            img_url: String::from("https://placekitten.com/250/350"),
+            alt: String::from("A cute kitten"),
+            description: String::from("A cute kitten"),
+        },
+        Thumbnails {
+            title: String::from("Another cute kitten"),
+            img_url: String::from("https://placekitten.com/300/200"),
+            alt: String::from("Another cute kitten"),
+            description: String::from("Another cute kitten"),
+        },
+    ];
 
     let var_name = IndexTemplate {
         title: "Home",
         content: vec!["friendly", "messages"],
         version,
-        thumbnails: vec![thumbnails],
+        thumbnails,
         location: "Jacobson, MN",
         source_url: "https://christerpher.com",
     };

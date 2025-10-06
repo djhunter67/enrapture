@@ -1,9 +1,16 @@
-use std::{collections::HashMap, path::PathBuf};
+use std::path::PathBuf;
 
 use actix_files::NamedFile;
 use actix_web::{HttpResponse, Responder, get};
 use askama::Template;
 use tracing::{error, info, instrument};
+
+pub struct Thumbnails {
+    pub title: String,
+    pub img_url: String,
+    pub alt: String,
+    pub description: String,
+}
 
 #[derive(Template)]
 #[template(path = "index.html")]
@@ -12,7 +19,7 @@ pub struct IndexTemplate<'a> {
     pub content: Vec<&'a str>,
     pub version: &'a str,
     pub location: &'a str,
-    pub thumbnails: Vec<HashMap<&'a str, &'a str>>,
+    pub thumbnails: Vec<Thumbnails>,
     pub source_url: &'a str,
 }
 
