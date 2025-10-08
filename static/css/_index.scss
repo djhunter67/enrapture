@@ -86,7 +86,6 @@
 	justify-content: space-between;
 	gap: 10px;
 
-
 	&__popular {
 	    background-color: #e0e0e0;
 	    padding: 10px;
@@ -101,8 +100,8 @@
 		transform: scale(1.05);
 		transition: transform 0.3s ease;
 	    }
-
 	}
+	
 	&__playlist {
 	    background-color: #e0e0e0;
 	    padding: 10px;
@@ -155,8 +154,9 @@
 	border: 1px solid #ccc;
 	border-radius: 2rem;
 	padding: 10px;
-	margin: 10px;
 	background-color: black;
+	height: fit-content;
+	overflow-y: scroll;
 	&:hover {
 	    transform: scale(1.05);
 	    transition: transform 0.3s ease;
