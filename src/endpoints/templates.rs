@@ -20,7 +20,7 @@ pub struct IndexTemplate<'a> {
     pub version: &'a str,
     pub location: &'a str,
     pub thumbnails: Vec<Thumbnails>,
-    pub source_url: &'a str,
+    pub headshot: &'a str,
 }
 
 #[derive(Template)]

@@ -32,15 +32,33 @@ pub async fn index() -> HttpResponse {
     let thumbnails = vec![
         Thumbnails {
             title: String::from("A cute kitten"),
-            img_url: String::from("https://placekitten.com/250/350"),
+            img_url: String::from("https://placecats.com/250/350"),
             alt: String::from("A cute kitten"),
             description: String::from("A cute kitten"),
         },
         Thumbnails {
             title: String::from("Another cute kitten"),
-            img_url: String::from("https://placekitten.com/300/200"),
+            img_url: String::from("https://placecats.com/300/200"),
             alt: String::from("Another cute kitten"),
             description: String::from("Another cute kitten"),
+        },
+        Thumbnails {
+            title: String::from("Yet another cute kitten"),
+            img_url: String::from("https://placecats.com/400/300"),
+            alt: String::from("Yet another cute kitten"),
+            description: String::from("Yet another cute kitten"),
+        },
+        Thumbnails {
+            title: String::from("The cutest kitten"),
+            img_url: String::from("https://placecats.com/500/400"),
+            alt: String::from("The cutest kitten"),
+            description: String::from("The cutest kitten"),
+        },
+        Thumbnails {
+            title: String::from("The most adorable kitten"),
+            img_url: String::from("https://placecats.com/600/500"),
+            alt: String::from("The most adorable kitten"),
+            description: String::from("The most adorable kitten"),
         },
     ];
 
@@ -50,18 +68,17 @@ pub async fn index() -> HttpResponse {
         version,
         thumbnails,
         location: "Jacobson, MN",
-        source_url: "https://christerpher.com",
+        headshot: "../../static/imgs/headshot.jpg",
     };
 
     let rendered = var_name.render().expect("Failed to render template");
-
-    // qs.await;
 
     HttpResponse::Ok()
         .content_type(ContentType::html())
         .body(rendered)
 }
 
+#[allow(clippy::future_not_send)]
 pub async fn sse(_req: HttpRequest) -> impl Responder {
     let mut counter: usize = 5;
 
