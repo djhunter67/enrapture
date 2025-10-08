@@ -31,34 +31,35 @@ pub async fn index() -> HttpResponse {
     // TODO: replace with dynamic content from database
     let thumbnails = vec![
         Thumbnails {
-            title: String::from("A cute kitten"),
-            img_url: String::from("https://placecats.com/250/350"),
-            alt: String::from("A cute kitten"),
-            description: String::from("A cute kitten"),
+            title: "The Matrix",
+            img_url: "https://m.media-amazon.com/images/I/51oBxmV-dML._AC_.jpg",
+            alt: "The Matrix Image",
+            description: "The Matrix is a groundbreaking sci-fi film that explores the nature of reality and human existence. Directed by the Wachowskis, it follows Neo, a hacker who discovers that the world he knows is a simulated reality created by intelligent machines. With stunning visual effects and thought-provoking themes, The Matrix has become a cult classic, inspiring countless discussions about technology, freedom, and identity."
         },
         Thumbnails {
-            title: String::from("Another cute kitten"),
-            img_url: String::from("https://placecats.com/300/200"),
-            alt: String::from("Another cute kitten"),
-            description: String::from("Another cute kitten"),
+            title: "The Terminator",
+            img_url: "https://m.media-amazon.com/images/M/MV5BZmE0YzIxM2QtMGNlMi00MjRmLWE3MWMtOWQzMGVjMmU0YTFmXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+            alt: "The Terminator Image",
+            description: "The Terminator is a classic sci-fi action film directed by James Cameron. It stars Arnold Schwarzenegger as a cyborg assassin sent from the future to kill Sarah Connor, whose unborn son will lead humanity in a war against machines. With its thrilling action sequences and iconic catchphrases, The Terminator has become a cultural phenomenon, spawning multiple sequels and influencing the genre for decades."
         },
         Thumbnails {
-            title: String::from("Yet another cute kitten"),
-            img_url: String::from("https://placecats.com/400/300"),
-            alt: String::from("Yet another cute kitten"),
-            description: String::from("Yet another cute kitten"),
+            title: "Honey, I Shrunk the Kids",
+            img_url: "https://lumiere-a.akamaihd.net/v1/images/p_honeyishrunkthekids_19900_19125f54.jpeg",
+            alt: "Honey, I Shrunk the Kids Image",
+            description: "Honey, I Shrunk the Kids is a beloved family comedy film directed by Joe Johnston. It tells the story of an eccentric inventor who accidentally shrinks his children and their friends to miniature size, leading to a series of hilarious and adventurous escapades in their own backyard. With its imaginative premise and heartwarming themes, the movie has become a nostalgic favorite for audiences of all ages."
+
         },
         Thumbnails {
-            title: String::from("The cutest kitten"),
-            img_url: String::from("https://placecats.com/500/400"),
-            alt: String::from("The cutest kitten"),
-            description: String::from("The cutest kitten"),
+            title: "28Days Later",
+            img_url: "https://m.media-amazon.com/images/M/MV5BM2I4NTI0ZGQtNGQ2ZC00ODIxLWI2N2QtMDBkNzI1NDhjYjE5XkEyXkFqcGc@._V1_.jpg",
+            alt: "28 Days Later Image",
+            description: "28 Days Later is a gripping post-apocalyptic horror film directed by Danny Boyle. The story follows a group of survivors navigating a world devastated by a deadly virus that turns humans into rage-fueled zombies. With its intense atmosphere, social commentary, and innovative cinematography, 28 Days Later has become a landmark in the zombie genre, influencing countless films and TV shows that followed."
         },
         Thumbnails {
-            title: String::from("The most adorable kitten"),
-            img_url: String::from("https://placecats.com/600/500"),
-            alt: String::from("The most adorable kitten"),
-            description: String::from("The most adorable kitten"),
+            title: "The Old Guard",
+            img_url: "https://m.media-amazon.com/images/M/MV5BNTk5Y2NjNjktMzJjMS00ODZkLThlYzUtNmFmNDdmZWNjNTc2XkEyXkFqcGc@._V1_.jpg",
+            alt: "The Old Guard Image",
+            description: "The Old Guard is an action-packed fantasy film directed by Gina Prince-Bythewood. It stars Charlize Theron as the leader of a group of immortal warriors who have protected humanity for centuries. When their secret is exposed, they must fight to survive against those who seek to exploit their powers. With its thrilling action sequences and exploration of themes like immortality and sacrifice, The Old Guard has garnered praise for its fresh take on the superhero genre."
         },
     ];
 
@@ -68,7 +69,6 @@ pub async fn index() -> HttpResponse {
         version,
         thumbnails,
         location: "Jacobson, MN",
-        headshot: "../../static/imgs/headshot.jpg",
     };
 
     let rendered = var_name.render().expect("Failed to render template");

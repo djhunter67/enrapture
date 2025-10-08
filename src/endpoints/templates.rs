@@ -5,11 +5,11 @@ use actix_web::{HttpResponse, Responder, get};
 use askama::Template;
 use tracing::{error, info, instrument};
 
-pub struct Thumbnails {
-    pub title: String,
-    pub img_url: String,
-    pub alt: String,
-    pub description: String,
+pub struct Thumbnails<'a> {
+    pub title: &'a str,
+    pub img_url: &'a str,
+    pub alt: &'a str,
+    pub description: &'a str,
 }
 
 #[derive(Template)]
@@ -19,8 +19,7 @@ pub struct IndexTemplate<'a> {
     pub content: Vec<&'a str>,
     pub version: &'a str,
     pub location: &'a str,
-    pub thumbnails: Vec<Thumbnails>,
-    pub headshot: &'a str,
+    pub thumbnails: Vec<Thumbnails<'a>>,
 }
 
 #[derive(Template)]
@@ -177,14 +176,14 @@ async fn action_script() -> Result<NamedFile, actix_web::Error> {
 
 #[get("/prof_headshot")]
 #[instrument(
-    name = "Serving prof_headshot.jpg",
+    name = "Serving headshot.jpg",
     level = "info",
     target = "portfolio_site"
 )]
 async fn prof_headshot() -> Result<NamedFile, actix_web::Error> {
     info!("Serving prof_headshot.jpg");
 
-    let filename = "head_shot.png";
+    let filename = "headshot.jpg";
     let path: PathBuf = ["static", "imgs", filename].iter().collect();
 
     match NamedFile::open(path) {

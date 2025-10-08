@@ -10,7 +10,7 @@
 <section id="side">
   <aside id="side__section">
     <div id="side__section__img">
-      <img class="headshot" alt="user headshot" src={{ headshot  }}>
+      <img class="headshot" alt="user headshot" src="/prof_headshot" width="250px" height="200px"/>
     </div>
     <div id="side__section__info">
       <h3>Location</h3>
@@ -31,7 +31,6 @@
     hx-target="#body"
     hx-swap="innerHTML"
     hx-trigger="click"
-    hx-vals='{"user_id": "{{ user_id }}"}'
     >
     POPULAR
   </button>
@@ -40,7 +39,6 @@
     hx-get="/playlist"
     hx-target="#body"
     hx-swap="innerHTML"
-    hx-vals='{"user_id": "{{ user_id }}"}'
     hx-trigger="click"
     >
     PLAYLIST
@@ -50,7 +48,6 @@
     hx-get="/favorites"
     hx-target="#body"
     hx-swap="innerHTML"
-    hx-vals='{"user_id": "{{ user_id }}"}'
     hx-trigger="click"
     >
     FAVORITES
