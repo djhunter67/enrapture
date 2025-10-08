@@ -25,14 +25,34 @@
   </aside>
 </section>
 <section id="top">
-  <aside id="top__buttons">
-  <button id="top__buttons__popular">
+  <button
+    id="top__popular"
+    hx-get="/popular"
+    hx-target="#body"
+    hx-swap="innerHTML"
+    hx-trigger="click"
+    hx-vals='{"user_id": "{{ user_id }}"}'
+    >
     POPULAR
   </button>
-  <button id="top__buttons__playlist">
+  <button
+    id="top__playlist"
+    hx-get="/playlist"
+    hx-target="#body"
+    hx-swap="innerHTML"
+    hx-vals='{"user_id": "{{ user_id }}"}'
+    hx-trigger="click"
+    >
     PLAYLIST
   </button>
-  <button id="top__buttons__favorites">
+  <button
+    id="top__favorites"
+    hx-get="/favorites"
+    hx-target="#body"
+    hx-swap="innerHTML"
+    hx-vals='{"user_id": "{{ user_id }}"}'
+    hx-trigger="click"
+    >
     FAVORITES
   </button>
 </section>
