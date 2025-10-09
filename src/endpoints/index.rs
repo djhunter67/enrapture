@@ -37,7 +37,12 @@ pub async fn index(con: Data<SqliteConnectionManager>) -> HttpResponse {
         &settings::get().expect("Failed to get settings"),
         Arc::try_unwrap(con.into_inner()).expect("Failed to unwrap Arc"),
     )
-    .expect("Failed to connect to SQLite database");
+    .expect("Failed to connect to SQLite database")
+    .get()
+    .expect("Failed to get connection from pool");
+
+    con.query_row("SELECT 1", [], |_| Ok(()))
+        .expect("Failed to execute test query on SQLite database");
 
     // let con =
     //     establish_sqlite_connection(&settings, con).expect("Failed to connect to SQLite database");
