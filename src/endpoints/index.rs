@@ -1,4 +1,4 @@
-use std::task::Poll;
+use std::{sync::Arc, task::Poll};
 
 use actix_web::{
     Error, HttpRequest, HttpResponse, Responder, get,
@@ -13,7 +13,11 @@ use futures::stream;
 use r2d2_sqlite::SqliteConnectionManager;
 use tracing::{info, instrument};
 
-use crate::{endpoints::templates::Thumbnails, settings::Settings};
+use crate::{
+    endpoints::templates::Thumbnails,
+    models::sqlite::establish_sqlite_connection,
+    settings::{self, Settings},
+};
 
 use super::templates::IndexTemplate;
 
@@ -28,6 +32,12 @@ use super::templates::IndexTemplate;
 pub async fn index(con: Data<SqliteConnectionManager>) -> HttpResponse {
     info!("Serving main page");
     let version: &str = env!("CARGO_PKG_VERSION");
+
+    let con = establish_sqlite_connection(
+        &settings::get().expect("Failed to get settings"),
+        Arc::try_unwrap(con.into_inner()).expect("Failed to unwrap Arc"),
+    )
+    .expect("Failed to connect to SQLite database");
 
     // let con =
     //     establish_sqlite_connection(&settings, con).expect("Failed to connect to SQLite database");

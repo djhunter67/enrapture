@@ -59,13 +59,13 @@ impl SqliteData {
 ///   - Returns `Error::NoConnection` if the connection cannot be established
 pub fn establish_sqlite_connection(
     settings: &Settings,
-    manager: Data<SqliteConnectionManager>,
+    manager: SqliteConnectionManager,
 ) -> Result<Pool<SqliteConnectionManager>, errors::sqlite::Error> {
     info!("Establishing a connection to the SQLite database");
     r2d2::Pool::builder()
         .max_size(settings.sqlite.pool_size)
         .connection_timeout(Duration::from_secs(settings.sqlite.connection_timeout))
-        .build(match Arc::into_inner(manager.into_inner()) {
+        .build(match Arc::into_inner(manager.into()) {
             Some(manager) => manager,
             None => return Err(Error::NoConnection),
         })
