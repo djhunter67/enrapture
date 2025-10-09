@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS movies (
     id SERIAL PRIMARY KEY,
     imdb_id TEXT UNIQUE,
     title VARCHAR(255) NOT NULL,
-    porster_path TEXT,
+    poster_path BLOB,
     youtube_id TEXT,
     description TEXT,
     release_year INTEGER CHECK (release_year >= 1888),

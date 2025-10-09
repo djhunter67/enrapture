@@ -57,7 +57,7 @@ impl SqliteData {
 ///
 /// # Errors
 ///   - Returns `Error::NoConnection` if the connection cannot be established
-pub fn establish_connection(
+pub fn establish_sqlite_connection(
     settings: &Settings,
     manager: Data<SqliteConnectionManager>,
 ) -> Result<Pool<SqliteConnectionManager>, errors::sqlite::Error> {
@@ -85,7 +85,8 @@ mod tests {
     #[rstest]
     fn test_can_write_to_sqlite() {
         let manager = r2d2_sqlite::SqliteConnectionManager::file("test.db");
-        let pool = establish_connection(&settings::get().unwrap(), Data::new(manager)).unwrap();
+        let pool =
+            establish_sqlite_connection(&settings::get().unwrap(), Data::new(manager)).unwrap();
         let conn = pool.get().unwrap();
 
         // Test query
@@ -115,7 +116,8 @@ mod tests {
     fn test_single_writer_sqlite() {
         // Create a connection pool
         let manager = r2d2_sqlite::SqliteConnectionManager::file("test_1.db");
-        let pool = establish_connection(&settings::get().unwrap(), Data::new(manager)).unwrap();
+        let pool =
+            establish_sqlite_connection(&settings::get().unwrap(), Data::new(manager)).unwrap();
 
         // Insert 5 items using a for loop
         let mut handles = vec![];
@@ -155,7 +157,8 @@ mod tests {
     #[rstest]
     fn test_write_and_read_sqlite() {
         let manager = r2d2_sqlite::SqliteConnectionManager::file("test_2.db");
-        let pool = establish_connection(&settings::get().unwrap(), Data::new(manager)).unwrap();
+        let pool =
+            establish_sqlite_connection(&settings::get().unwrap(), Data::new(manager)).unwrap();
 
         // Create table if not exists
         pool.get()
@@ -194,7 +197,8 @@ mod tests {
     fn test_create_four_tables_sqlite() {
         // Create a connection to the new database
         let manager = r2d2_sqlite::SqliteConnectionManager::file("test_3.db");
-        let pool = establish_connection(&settings::get().unwrap(), Data::new(manager)).unwrap();
+        let pool =
+            establish_sqlite_connection(&settings::get().unwrap(), Data::new(manager)).unwrap();
         let conn = pool.get().unwrap();
 
         // Create four tables with arbitrary names
@@ -241,7 +245,8 @@ mod tests {
     #[rstest]
     fn test_create_table_with_params() {
         let manager = r2d2_sqlite::SqliteConnectionManager::file("test_4.db");
-        let pool = establish_connection(&settings::get().unwrap(), Data::new(manager)).unwrap();
+        let pool =
+            establish_sqlite_connection(&settings::get().unwrap(), Data::new(manager)).unwrap();
         let conn = pool.get().unwrap();
 
         // Create a table with parameters

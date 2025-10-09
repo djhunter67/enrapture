@@ -14,6 +14,7 @@ pub struct Settings {
     pub frontend_url: String,
 }
 
+/// Application secrets
 #[derive(Deserialize, Clone)]
 pub struct Secret {
     pub secret_key: String,
@@ -32,6 +33,7 @@ pub struct Redis {
     pub pool_expire_seconds: u32,
 }
 
+/// Sqlite settings for the entire application
 #[derive(Deserialize, Clone, Debug)]
 pub struct Sqlite {
     pub path: String,

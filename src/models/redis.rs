@@ -24,7 +24,7 @@ use tracing::instrument;
 ///   - Panics if the pool cannot be created
 ///
 /// Initialize and return a connection to the ``Redis`` database.
-pub fn establish_connection(
+pub fn establish_redis_connection(
     settings: &Settings,
     manager: Data<RedisConnectionManager>,
 ) -> Pool<RedisConnectionManager> {
@@ -55,7 +55,7 @@ mod tests {
     fn pool() -> Pool<RedisConnectionManager> {
         let manager = RedisConnectionManager::new(settings::get().unwrap().redis.url)
             .expect("Failed to create Redis manager");
-        establish_connection(&settings::get().unwrap(), Data::new(manager))
+        establish_redis_connection(&settings::get().unwrap(), Data::new(manager))
     }
 
     #[rstest]

@@ -19,12 +19,13 @@ async fn run(
     listener: std::net::TcpListener,
     settings: Settings,
 ) -> Result<actix_web::dev::Server, std::io::Error> {
-    let sqlite_pool: SqliteConnectionManager = SqliteConnectionManager::file(settings.sqlite.path);
+    let sqlite_pool: SqliteConnectionManager =
+        SqliteConnectionManager::file(settings.clone().sqlite.path);
     let redis_pool: RedisConnectionManager =
-        r2d2_redis::RedisConnectionManager::new(settings.redis.url.clone())
+        r2d2_redis::RedisConnectionManager::new(settings.clone().redis.url)
             .expect("Failed to create Redis connection redis_pool");
 
-    // Connect to the MongoDB database
+    // Pass the Database around the application
     let db_redis = Data::new(redis_pool);
     let db_sqlite = Data::new(sqlite_pool);
     // info!("Processed DB connection pool for distribution");
