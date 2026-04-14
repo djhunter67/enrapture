@@ -37,7 +37,7 @@ codegen-units = 128
 actix-web = "4.11.0"
 argon2 = { version = "0.5.3", features = ["rand", "std"] }
 askama = "0.14.0"
-rand = { version = "0.9.2", features = ["std"] }
+rand = { version = "0.9.3", features = ["std"] }
 rusqlite = { version = "0.37.0", features = ["bundled"] }
 serde = { version = "1.0.228", features = ["derive"] }
 serde_json = "1.0.145"
